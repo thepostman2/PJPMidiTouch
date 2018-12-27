@@ -7,7 +7,7 @@
 //
 
 #include "PJPPage.h"
-#include "PJPButton.h"
+#include "PJPTchButton.h"
 #include "RoundKnob.h"
 #include "PJPRadioGroup.h"
 
@@ -30,17 +30,17 @@ namespace PJP{
 
     for(int i=0;i<4;i++)
     {
-      knobs_.Add(shared_ptr<TchObject>(new PJPButton(TSize(RoundKnob_width,RoundKnob_height),
-        TS_Point(xoffst_+i*xdistKnobs,yoffst_,1),PJPButton::eButtonType::rotate,tft,"",ILI9341_RED,ILI9341_BLACK,2)));
-      tabs_.Add(shared_ptr<TchObject>(new PJPButton(TSize(buttonX,buttonY),
-        TS_Point(i*buttonX,0,1),PJPButton::eButtonType::toggle,tft,"",ILI9341_RED,ILI9341_BLACK,1)));
+      knobs_.Add(shared_ptr<TchObject>(new PJPTchButton(TSize(RoundKnob_width,RoundKnob_height),
+        TS_Point(xoffst_+i*xdistKnobs,yoffst_,1),PJPTchButton::eButtonType::rotate,tft,"",ILI9341_RED,ILI9341_BLACK,2)));
+      tabs_.Add(shared_ptr<TchObject>(new PJPTchButton(TSize(buttonX,buttonY),
+        TS_Point(i*buttonX,0,1),PJPTchButton::eButtonType::toggle,tft,"",ILI9341_RED,ILI9341_BLACK,1)));
     }
     for(int i=0;i<4;i++)
     {
-      knobs_.Add(shared_ptr<TchObject>(new PJPButton(TSize(RoundKnob_width,RoundKnob_height),
-        TS_Point(xoffst_+i*xdistKnobs,ydistKnobs,1),PJPButton::eButtonType::rotate,tft,"",ILI9341_RED,ILI9341_BLACK,2)));
-      tabs_.Add(shared_ptr<TchObject>(new PJPButton(TSize(buttonX,buttonY),
-        TS_Point(i*buttonX,buttonYdist,1),PJPButton::eButtonType::toggle,tft,"",ILI9341_RED,ILI9341_BLACK,1)));
+      knobs_.Add(shared_ptr<TchObject>(new PJPTchButton(TSize(RoundKnob_width,RoundKnob_height),
+        TS_Point(xoffst_+i*xdistKnobs,ydistKnobs,1),PJPTchButton::eButtonType::rotate,tft,"",ILI9341_RED,ILI9341_BLACK,2)));
+      tabs_.Add(shared_ptr<TchObject>(new PJPTchButton(TSize(buttonX,buttonY),
+        TS_Point(i*buttonX,buttonYdist,1),PJPTchButton::eButtonType::toggle,tft,"",ILI9341_RED,ILI9341_BLACK,1)));
     }
     tabs_.SetItemName(0,"Oscillator");
     tabs_.SetItemName(1,"Filter");
@@ -55,8 +55,8 @@ namespace PJP{
     for(int i=0;i<6;i++)
     {
       sprintf(oname,"%d",i+1);
-      items_.Add(shared_ptr<TchObject>(new PJPButton(TSize(itemKnob,itemKnob),
-        TS_Point(0.5*itemKnob,yoffst_+i*(1.3*itemKnob),1),PJPButton::eButtonType::toggle,tft,oname,ILI9341_RED,ILI9341_BLACK,2)));
+      items_.Add(shared_ptr<TchObject>(new PJPTchButton(TSize(itemKnob,itemKnob),
+        TS_Point(0.5*itemKnob,yoffst_+i*(1.3*itemKnob),1),PJPTchButton::eButtonType::toggle,tft,oname,ILI9341_RED,ILI9341_BLACK,2)));
     }
     //tabs_.SetActive(0);
     //knobs_.SetActive(0);

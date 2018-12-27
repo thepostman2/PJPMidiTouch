@@ -7,7 +7,7 @@
 #include <string>
 
 #include "PJPTchObject.h"
-#include "PJPButton.h"
+#include "PJPTchButton.h"
 #include "PJPRadioGroup.h"
 
 using namespace std;
