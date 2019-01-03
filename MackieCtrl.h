@@ -1,3 +1,4 @@
+
 #ifndef MackieCtrl_h
 #define MackieCtrl_h
 
@@ -19,5 +20,3 @@ void handleSysEx(const byte* sysExData, uint16_t sysExSize, bool complete);
 
 
 #endif //MackieCtrl_h
-
-

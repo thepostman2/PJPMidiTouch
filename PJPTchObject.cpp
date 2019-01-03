@@ -1,20 +1,8 @@
-//
-// PJPTchObject.cpp
-// Library C++ code
-// ----------------------------------
-// Developed with embedXcode
-// http://embedXcode.weebly.com
-//
-// Project 		PJPMidiTouch
-//
-// Created by 	Peter, 19-04-18 21:09
-// 				PJP
-//
-// Copyright 	(c) Peter, 2018
-// Licence		<#licence#>
-//
-// See 			PJPTchObject.h and ReadMe.txt for references
-//
+/*!
+ \file PJPTchObject.cpp
+
+ \brief description of generic touch object for GUI on a touchscreen
+*/
 
 
 // Library header
@@ -23,7 +11,7 @@
 
 
 // Code
-namespace PJP{
+namespace PJPTch{
     
     /**
      * @brief  between checks if a val is the same or in between two other values
@@ -158,15 +146,29 @@ namespace PJP{
     //TchObject ============================
     
     //constructors
-    TchObject::TchObject(Adafruit_ILI9341& tft, const TS_Point& loc, const TSize& s,const char* oname):boundary_(loc,s),tft_(tft)
+    TchObject::TchObject(Adafruit_ILI9341& tft, const TS_Point& loc, const TSize& s,const String oname):boundary_(loc,s),name_(oname),tft_(tft)
     {
-      Name(oname);
     }
-    TchObject::TchObject(Adafruit_ILI9341& tft, const TSize& s, const TS_Point& ul,const char* oname):boundary_(s,ul),tft_(tft)
+    TchObject::TchObject(Adafruit_ILI9341& tft, const TSize& s, const TS_Point& ul,const String oname):boundary_(s,ul),name_(oname),tft_(tft)
     {
-      Name(oname);
     }
+    
+    TchObject::TchObject(const TchObject& obj):boundary_(obj.boundary_),value_(obj.value_),name_(obj.name_),
+    wasBeingTouched_(obj.wasBeingTouched_),active_(obj.active_),parent_(obj.parent_),tft_(obj.tft_),on_(obj.on_)
+    {}
 
+    TchObject& TchObject::operator=(const TchObject& obj)
+    {
+      boundary_=obj.boundary_;
+      value_=obj.value_;
+      name_=obj.name_;
+      wasBeingTouched_=obj.wasBeingTouched_;
+      active_=obj.active_;
+      parent_=obj.parent_;
+      //tft_=obj.tft_;
+      on_=obj.on_;
+      return *this;
+    }
     //get & set functions=====================================
     
     /**
@@ -241,13 +243,13 @@ namespace PJP{
        return wasBeingTouched_;
     }
 
-    const char* TchObject::Name() const
+    const String TchObject::Name() const
     {
       return name_;
     }
-    void TchObject::Name(const char* oname)
+    void TchObject::Name(const String oname)
     {
-      sprintf(name_,"%*.*s",0,16,oname);
+      name_=oname;
     }
 
     const Adafruit_ILI9341& TchObject::TFT()const
