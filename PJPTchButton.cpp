@@ -1,22 +1,45 @@
-//
-//  PJPButton.cpp
-//  PJPMidiTouch
-//
-//  Created by Peter on 28-04-18.
-//  Copyright © 2018 PJP. All rights reserved.
-//
+/*!
+* \file PJPMidiTouch
+*  PJPTchButton.cpp
+*  PJPMidiTouch
+*
+* Created by Peter on 28-04-18.
+* Copyright © 2018 PJP. All rights reserved.
+*/
 
-#include "PJPButton.h"
+#include "PJPTchButton.h"
 #include "RoundKnob.h"
 
-namespace PJP {
+namespace PJPTch {
 //constructors
-PJPButton::PJPButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
+PJPTchButton::PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, loc, s, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
 {}
-PJPButton::PJPButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
+PJPTchButton::PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, s, ul, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
 {}
+
+PJPTchButton::PJPTchButton(const PJPTchButton& obj):TchObject(obj),buttonType_(obj.buttonType_),
+  inactiveColor_(obj.inactiveColor_)
+{
+  color_=obj.color_;
+  backcolor_=obj.backcolor_;
+  hidden_=obj.hidden_;
+  textsize_=obj.textsize_;
+}
+
+PJPTchButton& PJPTchButton::operator=(const PJPTchButton& obj)
+{
+  TchObject::operator=(obj);
+  buttonType_=obj.buttonType_;
+  color_=obj.color_;
+  backcolor_=obj.backcolor_;
+  inactiveColor_= obj.inactiveColor_;
+  hidden_=obj.hidden_;
+  textsize_=obj.textsize_;
+  return *this;
+}
+
 
 //getters and setters
 
@@ -24,7 +47,7 @@ PJPButton::PJPButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft,
 //operators
 
 //functions
-void PJPButton::Draw()
+void PJPTchButton::Draw()
 {
   char sval[3];
   uint16_t ty = 0.5 * boundary_.Height() - textsize_ * 4;
@@ -73,7 +96,8 @@ void PJPButton::Draw()
 
           break;
         }
-      case eButtonType::slidr:
+      case eButtonType::vslidr:
+      case eButtonType::hslidr:
         break;
       default:
         break;
@@ -81,14 +105,14 @@ void PJPButton::Draw()
   }
 }
 
-void PJPButton::hideButton(uint16_t bcolor)
+void PJPTchButton::hideButton(uint16_t bcolor)
 {
   tft_.fillRect(boundary_.UL.x, boundary_.UL.y, Width(), Height(), bcolor);
   hidden_ = true;
 }
 
 
-boolean PJPButton::touch(TS_Point p)
+boolean PJPTchButton::touch(TS_Point p)
 {
   if (Inside(p))
   {
@@ -103,7 +127,7 @@ boolean PJPButton::touch(TS_Point p)
 
 }
 
-void PJPButton::releaseButton()
+void PJPTchButton::releaseButton()
 {
   setButtonState(false);
   //drawButton();
@@ -112,7 +136,7 @@ void PJPButton::releaseButton()
 
 
 //private functions
-void PJPButton::setButtonState(boolean beingTouched)
+void PJPTchButton::setButtonState(boolean beingTouched)
 {
   switch (buttonType_)
   {
@@ -138,7 +162,8 @@ void PJPButton::setButtonState(boolean beingTouched)
       }
       break;
     case eButtonType::rotate:
-    case eButtonType::slidr:
+    case eButtonType::vslidr:
+    case eButtonType::hslidr:
       break;
 
   }

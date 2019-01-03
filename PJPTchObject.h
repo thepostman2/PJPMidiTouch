@@ -58,10 +58,7 @@
 #include <Adafruit_STMPE610.h>
 #include <Adafruit_ILI9341.h>
 
-using namespace std;
-
-
-namespace PJP{
+namespace PJPTch{
     
     bool between(int16_t val, int16_t first, int16_t last);
     
@@ -135,10 +132,11 @@ namespace PJP{
     public:
 
         //constructors
-        TchObject(Adafruit_ILI9341&, const TS_Point& loc, const TSize& s,const char* oname="");
-        TchObject(Adafruit_ILI9341&, const TSize& s, const TS_Point& ul,const char* oname="");
+        TchObject(Adafruit_ILI9341&, const TS_Point& loc, const TSize& s,const String oname="");
+        TchObject(Adafruit_ILI9341&, const TSize& s, const TS_Point& ul,const String oname="");
+        TchObject(const TchObject& obj);
 
-
+        TchObject& operator=(const TchObject& obj);
     
         //get & set functions
         virtual TchObject& get_this() {return *this;}
@@ -150,16 +148,14 @@ namespace PJP{
 
         boolean WasBeingTouched()const;
 
-        const char* Name() const;
-        void Name(const char* oname);
+        const String Name() const;
+        void Name(const String oname);
         boolean On()const;
         void On(boolean on);
 
         int16_t Value() const;
         int16_t Value(int16_t val);
         
-
-
         //functions
         TPoint UL()const;
         void UL(TPoint pt);
@@ -187,7 +183,7 @@ namespace PJP{
         TBoundary boundary_;
     protected:
         int16_t value_=0;
-        char name_[16]="";
+        String name_;
         boolean wasBeingTouched_=false;
         boolean active_=false;
         TchObject* parent_=NULL;
