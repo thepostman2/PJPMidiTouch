@@ -13,8 +13,9 @@
 #include "PJPTchObject.h"
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_STMPE610.h>
+#include "varlist.h" 
 
-namespace PJP
+namespace PJPTch
 {
   /*! \class PJPTchButton
    *  \brief Generic class for all types of buttons on a touchscreen.
@@ -32,7 +33,6 @@ namespace PJP
                                           hslidr //!< horizontal slider
                                                 };
 
-    
         //! \brief constructor based on location (centre of the button), and size.
         /* 
          * \param loc location (centre) of the button
@@ -60,7 +60,11 @@ namespace PJP
          */
         PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft,const char* oname="",uint16_t color=ILI9341_RED,
           uint16_t bcolor=ILI9341_BLACK,uint8_t textsize=2);
-        
+
+        PJPTchButton(const PJPTchButton& obj);
+
+        PJPTchButton& operator=(const PJPTchButton& obj);
+
         //getters and setters
         virtual PJPTchButton& get_this() {return *this;}
         

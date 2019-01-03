@@ -10,7 +10,7 @@
 #include "PJPTchButton.h"
 #include "RoundKnob.h"
 
-namespace PJP {
+namespace PJPTch {
 //constructors
 PJPTchButton::PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, loc, s, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
@@ -18,6 +18,28 @@ PJPTchButton::PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI934
 PJPTchButton::PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, s, ul, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
 {}
+
+PJPTchButton::PJPTchButton(const PJPTchButton& obj):TchObject(obj),buttonType_(obj.buttonType_),
+  inactiveColor_(obj.inactiveColor_)
+{
+  color_=obj.color_;
+  backcolor_=obj.backcolor_;
+  hidden_=obj.hidden_;
+  textsize_=obj.textsize_;
+}
+
+PJPTchButton& PJPTchButton::operator=(const PJPTchButton& obj)
+{
+  TchObject::operator=(obj);
+  buttonType_=obj.buttonType_;
+  color_=obj.color_;
+  backcolor_=obj.backcolor_;
+  inactiveColor_= obj.inactiveColor_;
+  hidden_=obj.hidden_;
+  textsize_=obj.textsize_;
+  return *this;
+}
+
 
 //getters and setters
 

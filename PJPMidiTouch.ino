@@ -31,7 +31,7 @@
 
 #include "PJPTchObject.h"
 #include "PJPTchButton.h"
-#include "PJPPage.h"
+#include "PJPTchPage.h"
 #include "Bitmap.h"
 #include "MackieCtrl.h"
 
@@ -112,13 +112,13 @@ Adafruit_STMPE610 ts = Adafruit_STMPE610(STMPE_CS);//!< Reference to Adafruit to
 #define MIDI_MAXVALUE 127 //!< maximum value for midi
 #define MIDI_MINVALUE 0 //!< minimum value for midi
 
-using namespace PJP;
+using namespace PJPTch;
 boolean touchd; //!< Valid if touch screen is already being touched
 TS_Point p; //!< Location where the screen is being touched
 TS_Point p_released; //!< Location where the screen is being released
 
 
-PJPPage myPage(tft);//!< Page with all controls
+PJPTchPage myPage("first",tft);//!< Page with all controls
 
 // Prototypes
 
@@ -162,7 +162,7 @@ void touchActions()
       if(p.x!=p_released.x && p.y!=p_released.y)
       {
         // Scale from ~0->4000 to tft.width using the calibration #'s
-        int x=p.x;
+        int16_t x=p.x;
         p.x = map(p.y, TS_MINY, TS_MAXY, 0, tft.width()); 
         p.y = tft.height()-map(x, TS_MINX, TS_MAXX, 0, tft.height());
 
@@ -238,10 +238,10 @@ void releaseTouchActions(TS_Point p)
 void setup()
 {
     touchd=false;//!< initially screen is not touched.
-    Serial.begin(115200);//!<Set Serial if in DEBUG mode
+    Serial.begin(115200);//!< Set Serial if in DEBUG mode
     pinMode(13, OUTPUT); 
-    usbMIDI.setHandleControlChange(handleControlChange);//!<set midi handler for receiving control change messages.
-    usbMIDI.setHandleSystemExclusive(handleSysEx);//!<set midi handler for receiving system exclusive messages.
+    usbMIDI.setHandleControlChange(handleControlChange);//!< set midi handler for receiving control change messages.
+    usbMIDI.setHandleSystemExclusive(handleSysEx);//!< set midi handler for receiving system exclusive messages.
 
     delay(10);
     Serial.println("FeatherWing TFT");

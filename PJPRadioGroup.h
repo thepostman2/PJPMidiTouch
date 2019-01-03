@@ -4,15 +4,13 @@
 #include <stdio.h>
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_STMPE610.h>
-#include <memory>
-#include <vector>
+#include "varList.h"
 
 #include "PJPTchObject.h"
-#include "PJPButton.h"
+#include "PJPTchButton.h"
 
-using namespace std;
 
-namespace PJP
+namespace PJPTch
 {
   class PJPRadioGroup: public TchObject
   {
@@ -31,18 +29,18 @@ namespace PJP
           bool Inside(TPoint val)const;
           
           void Draw();
-          void Add(shared_ptr<TchObject>);
+          void Add(PJPTchButton& obj);
           void SetActive(uint16_t index);
           void SetItemName(uint16_t index,char oname[16]);
 
           boolean Touched(TS_Point p);
   
     protected:
-      vector<shared_ptr<TchObject>> TchObjects_;
+      VarList<PJPTchButton> TchButtons_;
+      int count_;
       uint16_t selectedItem_=0;
   
-      void SetBoundaries(shared_ptr<TchObject>  obj);
+      void SetBoundaries();
   };
 }
-#endif /* PJPPage_h */
-
+#endif /* PJPTchPage_h */

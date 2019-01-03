@@ -1,25 +1,23 @@
-#ifndef PJPPage_h
-#define PJPPage_h
 
-#include <stdio.h>
+#ifndef PJPTchPage_h
+#define PJPTchPage_h
+
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_STMPE610.h>
-#include <string>
+
 
 #include "PJPTchObject.h"
 #include "PJPTchButton.h"
 #include "PJPRadioGroup.h"
 
-using namespace std;
-
-namespace PJP
+namespace PJPTch
 {
     
-    class PJPPage : public TchObject
+    class PJPTchPage : public TchObject
     {
       public:
         //constructors
-        PJPPage(/*const string&,*/Adafruit_ILI9341&);
+        PJPTchPage(const char*,Adafruit_ILI9341&);
 
         //getters & setters
         uint16_t Value( ) const;
@@ -32,14 +30,15 @@ namespace PJP
         boolean Touched(TS_Point p);
 
       private:
+        String pageName_;
         TSize pageSize_ = TSize(320,240);
         uint16_t xoffst_=50;
         uint16_t yoffst_=25;
-        PJPRadioGroup tabs_;
+        //PJPRadioGroup tabs_;
         PJPRadioGroup knobs_;
-        PJPRadioGroup items_;
+        //PJPRadioGroup items_;
     };
 }
 
 
-#endif /* PJPPage_h */
+#endif /* PJPTchPage_h */

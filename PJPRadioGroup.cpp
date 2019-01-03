@@ -1,5 +1,5 @@
 //
-//  PJPPage.cpp
+//  PJPTchPage.cpp
 //  PJPMidiTouch
 //
 //  Created by Peter on 09-05-18.
@@ -9,10 +9,10 @@
 #include <cmath>
 
 
-namespace PJP
+namespace PJPTch
 {
   //constructors
-  PJPRadioGroup::PJPRadioGroup(Adafruit_ILI9341& tft):TchObject(tft,TS_Point(0,0,1),TSize(1,1))
+  PJPRadioGroup::PJPRadioGroup(Adafruit_ILI9341& tft):TchObject(tft,TS_Point(0,0,1),TSize(1,1)),count_(0)
   {
     
   }
@@ -22,42 +22,45 @@ namespace PJP
   //getters & setters
   uint16_t PJPRadioGroup::Value()const
   {
-    return TchObjects_[selectedItem_]->Value();
+    return TchButtons_[selectedItem_].Value();
   }
 
   uint16_t PJPRadioGroup::Value(uint16_t val)
   {
-    TchObjects_[selectedItem_]->Value(val);
-    TchObjects_[selectedItem_]->Draw();
-    return TchObjects_[selectedItem_]->Value();
+    TchButtons_[selectedItem_],Value(val);
+    TchButtons_[selectedItem_].Draw();
+    return TchButtons_[selectedItem_].Value();
   }
 
   //operators
 
   //functions
 
-  void PJPRadioGroup::Add(shared_ptr<TchObject> obj)
+  void PJPRadioGroup::Add(PJPTchButton& obj)
   {
-    if(TchObjects_.size()<1) boundary_.operator=(obj->boundary_);
-    TchObjects_.push_back(obj);
-    SetBoundaries(obj);
+    TchButtons_.push_back(obj);
+
+    
+    if(TchButtons_.size==1) boundary_.operator=(obj.boundary_);
+    //TchButtons_.push_back(obj);
+    SetBoundaries();
   }
 
   void PJPRadioGroup::Draw()
   {
-    TchObjects_[selectedItem_]->On(true);
-    for(uint16_t i=0;i<TchObjects_.size();i++)
+    TchButtons_[selectedItem_].On(true);
+    for(uint16_t i=0;i<TchButtons_.size;i++)
     {
-      TchObjects_[i]->Draw();
+      TchButtons_[i].Draw();
     }
   }
 
   bool PJPRadioGroup::Inside(TPoint p)const
   {
     boolean inside=false;
-    for(uint16_t i=0;i<TchObjects_.size();i++)
+    for(uint16_t i=0;i<TchButtons_.size;i++)
     {
-      if(TchObjects_[i]->Inside(p))
+      if(TchButtons_[i].Inside(p))
         inside=true;
     }
     return inside;
@@ -65,21 +68,21 @@ namespace PJP
 
   void PJPRadioGroup::SetActive(uint16_t index)
   {
-    if(index<TchObjects_.size() )
+    if(index<TchButtons_.size)
     {
-      TchObjects_[selectedItem_]->On(false);
-      TchObjects_[selectedItem_]->Draw();
+      TchButtons_[selectedItem_].On(false);
+      TchButtons_[selectedItem_].Draw();
       selectedItem_=index;
-      TchObjects_[selectedItem_]->On(true);
-      TchObjects_[selectedItem_]->Draw();
+      TchButtons_[selectedItem_].On(true);
+      TchButtons_[selectedItem_].Draw();
     }      
   }
 
   void PJPRadioGroup::SetItemName(uint16_t index,char oname[16])
   {
-    if(index<TchObjects_.size())
+    if(index<TchButtons_.size)
     {
-      TchObjects_[index]->Name(oname);
+      TchButtons_[index].Name(oname);
     }
       
   }
@@ -89,9 +92,9 @@ namespace PJP
     if(selectedItem_>-1)
     {
       int16_t item=-1;;
-      for(uint16_t i=0;i<TchObjects_.size();i++)
+      for(uint16_t i=0;i<TchButtons_.size;i++)
       {
-        if(TchObjects_[i]->Inside(p))
+        if(TchButtons_[i].Inside(p))
         {
           item=i;
           SetActive(i);
@@ -104,15 +107,14 @@ namespace PJP
   }
 
 //protected functions
-  void PJPRadioGroup::SetBoundaries(shared_ptr<TchObject>  obj)
+  void PJPRadioGroup::SetBoundaries()
   {
-    boundary_.UL.x=fmin(obj->boundary_.UL.x,boundary_.UL.x);
-    boundary_.UL.y=fmin(obj->boundary_.UL.y,boundary_.UL.y);
-    boundary_.LR.x=fmax(obj->boundary_.LR.x,boundary_.LR.x);
-    boundary_.LR.y=fmax(obj->boundary_.LR.y,boundary_.LR.y);
+    for(uint16_t i=0;i<TchButtons_.size;i++)
+    {
+      boundary_.UL.x=fmin(TchButtons_[i].boundary_.UL.x,boundary_.UL.x);
+      boundary_.UL.y=fmin(TchButtons_[i].boundary_.UL.y,boundary_.UL.y);
+      boundary_.LR.x=fmax(TchButtons_[i].boundary_.LR.x,boundary_.LR.x);
+      boundary_.LR.y=fmax(TchButtons_[i].boundary_.LR.y,boundary_.LR.y);
+    }
   }
-
 }
-
-
-
