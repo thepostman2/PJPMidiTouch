@@ -34,9 +34,9 @@ namespace PJPTch
         TSize pageSize_ = TSize(320,240);
         uint16_t xoffst_=50;
         uint16_t yoffst_=25;
-        //PJPRadioGroup tabs_;
+        PJPRadioGroup tabs_;
         PJPRadioGroup knobs_;
-        //PJPRadioGroup items_;
+        PJPRadioGroup items_;
     };
 }
 

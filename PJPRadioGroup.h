@@ -30,8 +30,8 @@ namespace PJPTch
           
           void Draw();
           void Add(PJPTchButton& obj);
-          void SetActive(uint16_t index);
-          void SetItemName(uint16_t index,char oname[16]);
+          void SetActive(uint16_t index, boolean draw);
+          void SetItemName(uint16_t index,String oname);
 
           boolean Touched(TS_Point p);
   

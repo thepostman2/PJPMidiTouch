@@ -27,7 +27,7 @@ namespace PJPTch
 
   uint16_t PJPRadioGroup::Value(uint16_t val)
   {
-    TchButtons_[selectedItem_],Value(val);
+    TchButtons_[selectedItem_].Value(val);
     TchButtons_[selectedItem_].Draw();
     return TchButtons_[selectedItem_].Value();
   }
@@ -66,19 +66,19 @@ namespace PJPTch
     return inside;
   }
 
-  void PJPRadioGroup::SetActive(uint16_t index)
+  void PJPRadioGroup::SetActive(uint16_t index, boolean draw)
   {
     if(index<TchButtons_.size)
     {
       TchButtons_[selectedItem_].On(false);
-      TchButtons_[selectedItem_].Draw();
+      if(draw) TchButtons_[selectedItem_].Draw();
       selectedItem_=index;
       TchButtons_[selectedItem_].On(true);
-      TchButtons_[selectedItem_].Draw();
+      if(draw) TchButtons_[selectedItem_].Draw();
     }      
   }
 
-  void PJPRadioGroup::SetItemName(uint16_t index,char oname[16])
+  void PJPRadioGroup::SetItemName(uint16_t index,String oname)
   {
     if(index<TchButtons_.size)
     {
@@ -97,7 +97,7 @@ namespace PJPTch
         if(TchButtons_[i].Inside(p))
         {
           item=i;
-          SetActive(i);
+          SetActive(i,true);
           break;
         }
       }

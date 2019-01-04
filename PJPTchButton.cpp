@@ -12,10 +12,10 @@
 
 namespace PJPTch {
 //constructors
-PJPTchButton::PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
+PJPTchButton::PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft, String oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, loc, s, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
 {}
-PJPTchButton::PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft, const char* oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
+PJPTchButton::PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft, String oname, uint16_t color, uint16_t bcolor, uint8_t textsize)
   : TchObject(tft, s, ul, oname), buttonType_(t), color_(color), backcolor_(bcolor), hidden_(false), textsize_(textsize)
 {}
 

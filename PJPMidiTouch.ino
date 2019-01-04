@@ -37,7 +37,7 @@
 
 #define DEBUG true //!< flag to turn on/off debugging.
 #define Serial if(DEBUG)Serial 
-#define SHOWTOUCH false //!< flag to turn on/off showing the touch locations.
+#define SHOWTOUCH true //!< flag to turn on/off showing the touch locations.
 
 #ifdef ESP8266
    #define STMPE_CS 16
@@ -121,9 +121,16 @@ TS_Point p_released; //!< Location where the screen is being released
 PJPTchPage myPage("first",tft);//!< Page with all controls
 
 // Prototypes
+void clearBufferTS();
+void touchActions();
+void newTouchActions(TS_Point p);
+void dragTouchActions(TS_Point p);
+void releaseTouchActions(TS_Point p);
 
 
 // Utilities
+uint16_t prevXval; //!< hold the x coordinate of the previous touched location
+int16_t Value=127; //!< Value of the current parameter being editted
 
 // Functions
 /**************************************************************************/
@@ -153,12 +160,14 @@ void clearBufferTS()
 void touchActions()
 {
   if(ts.touched())
-  {
+  { 
     clearBufferTS();//!< remove any previous touched locations
     p_released=ts.getPoint(); //!< retrieve last touched point
+   
     while(ts.touched())
     {
       p=ts.getPoint();//!< retrieve current touch locaction
+      
       if(p.x!=p_released.x && p.y!=p_released.y)
       {
         // Scale from ~0->4000 to tft.width using the calibration #'s
@@ -177,6 +186,7 @@ void touchActions()
             newTouchActions(p);
             touchd=true;
         }
+        
       }
     }
     p_released=ts.getPoint(); //last release point
@@ -186,8 +196,6 @@ void touchActions()
 }  
 
  
-uint16_t prevXval; //!< hold the x coordinate of the previous touched location
-int16_t Value=127; //!< Value of the current parameter being editted
 
 /*!
     \brief  Handle a new touch action
@@ -256,7 +264,7 @@ void setup()
     tft.setRotation(1);//! rotate the touch screen to landscape mode
         
     tft.fillScreen(ILI9341_BLACK);//!< clear the touchscreen
-    myPage.Draw();//!< draw the first page
+    myPage.Draw();//!< draw the first page*/
 }
 
 /*!

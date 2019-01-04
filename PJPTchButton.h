@@ -45,7 +45,7 @@ namespace PJPTch
          * \param textsize integer value for the size of the text on the button
          * 
         */
-        PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft,const char* oname="",uint16_t color=ILI9341_RED,
+        PJPTchButton(TS_Point loc, TSize s, eButtonType t, Adafruit_ILI9341& tft,String oname="",uint16_t color=ILI9341_RED,
           uint16_t bcolor=ILI9341_BLACK,uint8_t textsize=2);
         //! constructor based on a size and the upper left corner of the button.
         /* 
@@ -58,7 +58,7 @@ namespace PJPTch
          * \param bcolor integer value for the background color of the button
          * \param textsize integer value for the size of the text on the button
          */
-        PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft,const char* oname="",uint16_t color=ILI9341_RED,
+        PJPTchButton(TSize s, TS_Point ul, eButtonType t, Adafruit_ILI9341& tft,String oname="",uint16_t color=ILI9341_RED,
           uint16_t bcolor=ILI9341_BLACK,uint8_t textsize=2);
 
         PJPTchButton(const PJPTchButton& obj);
